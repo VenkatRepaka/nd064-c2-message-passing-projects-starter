@@ -1,4 +1,4 @@
-FROM node:14.8.0-alpine3.12
+FROM arm64v8/node:18-alpine3.18
 
 WORKDIR .
 
