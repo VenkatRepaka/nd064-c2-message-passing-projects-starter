@@ -1,0 +1,10 @@
+Instructions to run gRPC server locally
+
+1. Install grpcio-tools
+2. Run main.py
+3. Run client.py
+
+Instructions to run gRPC server from pods
+1. kubectl apply deploymemts/udaconnect-locations-grpc.yaml
+2. To run client update port with the one exposed in udaconnect-locations-grpc.yaml
+3. Run client.py

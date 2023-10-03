@@ -1,0 +1,12 @@
+Refactoring is possible to create below microservices
+1. Locations microservice - A microservice where locations can be viewed and adding can be furter passed on to location creatin microservice
+2. Persons microservice - A microservice where persons data can be viewed and added
+3. conncetion microservice - A microservice where onnections can be fetched
+
+All the above service are created as REST services since they are accessed by web.
+
+Location creation microservice - This is a gRPC service, since the location can be sent via mobile directly and the locations can be streamed continously
+This service in totality contian below services
+1. gRPC server to receive events.
+2. Received events are sent to Kafka message, so that the gRPC service is not overwhelmed by the requests.
+3. A location message receiver which listens for messages from Kafka and pushed it to DB
