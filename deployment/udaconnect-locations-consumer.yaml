@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-locations-consumer
+  name: udaconnect-locations-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-locations-consumer
+  template:
+    metadata:
+      labels:
+        service: udaconnect-locations-consumer
+    spec:
+      containers:
+      - image: udaconnect-location-consumer-microservice:latest
+        name: udaconnect-locations-consumer
+        imagePullPolicy: Never
+        env:
+        - name: TOPIC_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: db-env
+              key: TOPIC_NAME
+        - name: KAFKA_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: db-env
+              key: KAFKA_SERVER
+      restartPolicy: Always

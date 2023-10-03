@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: udaconnect-locations-grpc
+  name: udaconnect-locations-grpc
+spec:
+  ports:
+  - name: "5005"
+    port: 5005
+    targetPort: 5005
+    nodePort: 30055
+  selector:
+    service: udaconnect-locations-grpc
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: udaconnect-locations-grpc
+  name: udaconnect-locations-grpc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: udaconnect-locations-grpc
+  template:
+    metadata:
+      labels:
+        service: udaconnect-locations-grpc
+    spec:
+      containers:
+      - image: udaconnect-location-producer-microservice:latest
+        name: udaconnect-locations-grpc
+        imagePullPolicy: Never
+        env:
+        - name: TOPIC_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: db-env
+              key: TOPIC_NAME
+        - name: KAFKA_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: db-env
+              key: KAFKA_SERVER
+      restartPolicy: Always
