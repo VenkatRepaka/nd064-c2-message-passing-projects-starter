@@ -1,0 +1,78 @@
+openapi: 3.0.0
+info:
+  description: Manage the Persons
+  version: "1.0.0"
+  title: Simple Persons API
+paths:
+  /persons/{person_id}:
+    get:
+      summary: Retrieve an person with id
+      operationId: getPersons
+      description: List person with id
+      parameters:
+        - in: path
+          name: personId
+          schema:
+            type: number
+          required: true
+          description: ID of the person to get
+      responses:
+        '200':
+          description: Successfully retrieved a person
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '404':
+          description: Requested item ID was not found
+  /persons:
+    get:
+      summary: List all persons
+      operationId: listAllPersons
+      description: List all persons available
+      responses:
+        200:
+          description: List of persons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+    post:
+      summary: Creates a person in the db
+      operationId: addPerson
+      description: Adds an person to the db
+      responses:
+        '201':
+          description: Person created
+        '400':
+          description: Invalid input, object invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+        description: Person to add
+components:
+  schemas:
+    Person:
+      type: object
+      required:
+        - id
+        - first_name
+        - last_name
+        - company_name
+      properties:
+        id:
+          type: number
+          example: 1
+        first_name:
+          type: string
+          example: "John"
+        last_name:
+          type: string
+          example: "Doe"
+        company_name:
+         type: string
+         example: "UdaConnect Company"
